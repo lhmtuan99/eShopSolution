@@ -9,7 +9,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20201209053456_Initial")]
+    [Migration("20201209145157_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,18 @@ namespace eShopSolution.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Catalogs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CatalogName = "Tivi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CatalogName = "Điện thoại"
+                        });
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Combo", b =>
@@ -121,7 +133,9 @@ namespace eShopSolution.Data.Migrations
             modelBuilder.Entity("eShopSolution.Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -135,15 +149,58 @@ namespace eShopSolution.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 50,
+                            CatalogId = 1,
+                            Detail = "",
+                            Price = 1000000m,
+                            ProductName = "LG Màn Hình Cong"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 20,
+                            CatalogId = 2,
+                            Detail = "",
+                            Price = 2000000m,
+                            ProductName = "SamSung S12"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 50,
+                            CatalogId = 1,
+                            Detail = "",
+                            Price = 1000000m,
+                            ProductName = "SamSung Màn Hình Cong"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 20,
+                            CatalogId = 2,
+                            Detail = "",
+                            Price = 2000000m,
+                            ProductName = "Iphone 12"
+                        });
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Storage", b =>
                 {
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -157,39 +214,6 @@ namespace eShopSolution.Data.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Storages");
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.InvoiceDetail", b =>
-                {
-                    b.HasOne("eShopSolution.Data.Entities.Invoice", "Invoice")
-                        .WithMany("InvoiceDetails")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eShopSolution.Data.Entities.Product", "Product")
-                        .WithMany("InvoiceDetails")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.Product", b =>
-                {
-                    b.HasOne("eShopSolution.Data.Catalog", "Catalog")
-                        .WithMany("Products")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.Storage", b =>
-                {
-                    b.HasOne("eShopSolution.Data.Entities.Product", "Product")
-                        .WithOne("Storage")
-                        .HasForeignKey("eShopSolution.Data.Entities.Storage", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -17,7 +17,6 @@ namespace eShopSolution.Data.Configurations
 
             builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.Amount).IsRequired();
-            builder.HasOne(x => x.Catalog).WithMany(x => x.Products).HasForeignKey(x => x.Id);
         }
     }
 }
