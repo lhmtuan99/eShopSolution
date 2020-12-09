@@ -10,7 +10,6 @@ namespace eShopSolution.Data.Entities
         public int Amount {get; set;}
         public string ImportDate { get; set; }
         public string ExportDate { get; set; }
-        public Product Product { get; set; }
 
     }
 }

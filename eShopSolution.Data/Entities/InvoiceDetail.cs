@@ -11,7 +11,5 @@ namespace eShopSolution.Data.Entities
         public int ComboId { get; set; }
         public int Amount { get; set; }
         public decimal Price { get; set; }
-        public Invoice Invoice { get; set; }
-        public Product Product { get; set; }
     }
 }

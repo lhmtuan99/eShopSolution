@@ -9,6 +9,5 @@ namespace eShopSolution.Data
     {
         public int Id { get; set; }
         public string CatalogName { get; set; }
-        public List<Product> Products { get; set; }
     }
 }

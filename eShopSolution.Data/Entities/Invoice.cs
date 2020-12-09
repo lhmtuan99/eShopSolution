@@ -12,7 +12,6 @@ namespace eShopSolution.Data.Entities
         public decimal TotalMoney {get; set;}
         public string CreateDate {get; set;}
         public string CustomerAddress { get; set; }
-        public List<InvoiceDetail> InvoiceDetails { get; set; }
 
     }
 }

@@ -13,8 +13,6 @@ namespace eShopSolution.Data.Configurations
         {
             builder.ToTable("InvoiceDetails");
             builder.HasKey(t => new { t.InvoiceId, t.ProductId });
-            builder.HasOne(t => t.Invoice).WithMany(t => t.InvoiceDetails).HasForeignKey(t => t.InvoiceId);
-            builder.HasOne(t => t.Product).WithMany(t => t.InvoiceDetails).HasForeignKey(t => t.InvoiceId);
         }
     }
 }

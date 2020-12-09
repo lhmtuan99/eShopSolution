@@ -39,6 +39,21 @@ namespace eShopSolution.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InvoiceDetails",
+                columns: table => new
+                {
+                    InvoiceId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    ComboId = table.Column<int>(nullable: false),
+                    Amount = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceDetails", x => new { x.InvoiceId, x.ProductId });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -59,7 +74,9 @@ namespace eShopSolution.Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Detail = table.Column<string>(nullable: true),
@@ -68,46 +85,14 @@ namespace eShopSolution.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_Catalogs_Id",
-                        column: x => x.Id,
-                        principalTable: "Catalogs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InvoiceDetails",
-                columns: table => new
-                {
-                    InvoiceId = table.Column<int>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    ComboId = table.Column<int>(nullable: false),
-                    Amount = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoiceDetails", x => new { x.InvoiceId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_InvoiceDetails_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InvoiceDetails_Products_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Storages",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<int>(nullable: false),
                     ImportDate = table.Column<string>(nullable: true),
                     ExportDate = table.Column<string>(nullable: true)
@@ -115,25 +100,39 @@ namespace eShopSolution.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Storages", x => x.ProductId);
-                    table.ForeignKey(
-                        name: "FK_Storages_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Catalogs",
+                columns: new[] { "Id", "CatalogName" },
+                values: new object[,]
+                {
+                    { 1, "Tivi" },
+                    { 2, "Điện thoại" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Amount", "CatalogId", "Detail", "Price", "ProductName" },
+                values: new object[,]
+                {
+                    { 1, 50, 1, "", 1000000m, "LG Màn Hình Cong" },
+                    { 2, 20, 2, "", 2000000m, "SamSung S12" },
+                    { 3, 50, 1, "", 1000000m, "SamSung Màn Hình Cong" },
+                    { 4, 20, 2, "", 2000000m, "Iphone 12" }
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Catalogs");
+
+            migrationBuilder.DropTable(
                 name: "Comboes");
 
             migrationBuilder.DropTable(
                 name: "InvoiceDetails");
-
-            migrationBuilder.DropTable(
-                name: "Storages");
 
             migrationBuilder.DropTable(
                 name: "Invoices");
@@ -142,7 +141,7 @@ namespace eShopSolution.Data.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Catalogs");
+                name: "Storages");
         }
     }
 }
